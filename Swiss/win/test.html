@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Test</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <h1>Chat Test Page</h1>
+    <button onclick="testChat()">Test Chat</button>
+    <div id="results"></div>
+
+    <script>
+        function testChat() {
+            const backendUrl = 'https://chat.maxlandmedia.com';
+            
+            $.ajax({
+                url: backendUrl + '/api/visitor/init',
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    phone: '1234567890',
+                    countryCode: '+41',
+                    pageUrl: window.location.href,
+                    visitorIp: '127.0.0.1'
+                }),
+                success: function(response) {
+                    $('#results').html('<p style="color: green;">Success: ' + JSON.stringify(response) + '</p>');
+                },
+                error: function(xhr, status, error) {
+                    $('#results').html('<p style="color: red;">Error: ' + error + '</p><p>Response: ' + xhr.responseText + '</p>');
+                }
+            });
+        }
+    </script>
+</body>
+</html>

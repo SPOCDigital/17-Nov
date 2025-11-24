@@ -1,0 +1,77 @@
+VIDEO PLAYER WEBSITE OVERLAY - INSTRUCTIONS
+=============================================
+
+OVERVIEW:
+---------
+Your website now shows a video player website (like YouTube) before the Windows warning page.
+Users will see a professional video player interface with a main video and sidebar thumbnails.
+
+HOW IT WORKS:
+-------------
+1. Page loads → Video player website appears
+2. Main video plays automatically (muted, as per your request)
+3. Sidebar shows 9 random video thumbnails from your collection
+4. Users can click thumbnails to switch videos in the main player
+5. Hovering over thumbnails previews that video
+6. Clicking "Continue" button → Closes video player and shows Windows warning page
+
+VIDEO FILES SETUP:
+------------------
+CURRENTLY USING HOSTED VIDEOS:
+The system is now configured to use 10 videos hosted at:
+https://videosforresearch14102025.pages.dev/v1.mp4 through v10.mp4
+
+These are external videos loaded from the cloud, NOT from the overlay folder.
+
+If you want to change the video source:
+1. Open win/script.js
+2. Find line 474: const VIDEO_COUNT = 10;
+3. Find line 475: const VIDEO_BASE_URL = 'https://videosforresearch14102025.pages.dev/';
+4. Update the URL or video count as needed
+
+To switch back to LOCAL videos:
+1. Change VIDEO_BASE_URL to: 'overlay/'
+2. Place your videos in win/overlay/ folder named v1.mp4, v2.mp4, etc.
+
+The system will:
+- Randomly select one for the main player
+- Display the others randomly in the sidebar
+- Automatically try the next video if one fails to load
+- Show a loading spinner while video is loading
+
+CUSTOMIZATION:
+--------------
+1. To change video titles, edit win/script.js around line 475:
+   const VIDEO_TITLES = [
+       "Your Custom Title 1",
+       "Your Custom Title 2",
+       ... etc
+   ];
+
+2. To change the site name, edit win/index.html around line 37:
+   <span>VideoHub</span>  ← Change this
+
+3. To change button text, edit win/index.html around line 44:
+   <i class="fas fa-times"></i> Continue  ← Change "Continue"
+
+FEATURES:
+---------
+✓ Professional video player design (YouTube-style)
+✓ Main video player with controls
+✓ Sidebar with clickable video thumbnails
+✓ Random video selection on each page load
+✓ Hover preview on thumbnails
+✓ Click to switch videos
+✓ Responsive layout
+✓ Dark theme
+
+NOTES:
+------
+- Videos autoplay muted (browser requirement for autoplay)
+- Users can unmute using video controls
+- Video loops automatically
+- Thumbnails show random view counts and dates
+- All 10 videos appear in random order each time
+
+Need help? Check win/script.js (line 470+) for video player code.
+
