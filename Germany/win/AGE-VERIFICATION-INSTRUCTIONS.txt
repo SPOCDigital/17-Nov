@@ -1,0 +1,98 @@
+AGE VERIFICATION & SCROLLBAR FIX - IMPLEMENTATION SUMMARY
+=========================================================
+
+FEATURE 1: 18+ AGE VERIFICATION PROMPT
+--------------------------------------
+
+TIMING:
+- Appears 1 second after page loads
+- Shows on top of the video player overlay
+
+DESIGN:
+✓ Black backdrop with 75% opacity (rgba(0, 0, 0, 0.75))
+✓ White centered card with rounded corners
+✓ 18.png icon displayed at top (80x80px)
+✓ "Are you 18+" heading
+✓ Subtitle text: "You must be 18 years or older to continue"
+
+BUTTON LAYOUT:
+✓ CANCEL button (BIG - full width)
+  - Red background (#e34449)
+  - White text
+  - Full width across the prompt
+  
+✓ YES and NO buttons (underneath)
+  - Side by side (50% width each)
+  - White background with gray border
+  - Left: YES
+  - Right: NO
+
+BEHAVIOR:
+✓ Any button click (Yes, No, or Cancel) triggers:
+  1. Age verification prompt disappears
+  2. Website enters FULLSCREEN immediately
+  3. User can continue viewing video overlay
+
+FILES MODIFIED:
+- win/index.html (lines 31-46): Added age verification HTML
+- win/style.css (lines 40-143): Added age verification styles
+- win/script.js (lines 520-559): Added age verification logic
+
+
+FEATURE 2: SCROLLBAR FIX
+------------------------
+
+PROBLEM FIXED:
+- Clicking on scrollbars no longer closes the video overlay
+- Clicking on scrollbars no longer triggers fullscreen
+
+IMPLEMENTATION:
+✓ Detects clicks on scrollbar areas (last 15px on right side)
+✓ Ignores scrollbar clicks - overlay stays open
+✓ Wider scrollbars (12px) for easier clicking
+✓ Interactive elements (buttons, inputs) also protected from closing overlay
+
+PROTECTED ELEMENTS:
+- Scrollbars (main content area and sidebar)
+- All buttons (Like, Share, Subscribe, etc.)
+- Input fields
+- Video player controls
+- Thumbnail items
+- Header icons and buttons
+
+HOW TO CLOSE OVERLAY:
+- Click on the BACKGROUND area outside content
+- Click on empty space in the video player container
+- Scrollbars and interactive elements WON'T close it
+
+FILES MODIFIED:
+- win/script.js (lines 742-812): Improved click detection
+- win/style.css (lines 322-343, 679-694): Enhanced scrollbar styling
+
+
+TESTING CHECKLIST:
+------------------
+1. ✓ Page loads → Video overlay appears
+2. ✓ After 1 second → Age verification prompt shows
+3. ✓ Click any button → Prompt closes, fullscreen activates
+4. ✓ Scroll content → Overlay stays open
+5. ✓ Click scrollbar → Overlay stays open
+6. ✓ Click buttons/inputs → Overlay stays open
+7. ✓ Click background → Overlay closes, Windows warning shows
+
+
+CUSTOMIZATION:
+--------------
+To change age verification timing:
+- Edit win/script.js line 523
+- Change: setTimeout(function() { ... }, 1000);
+- 1000 = 1 second (change to desired milliseconds)
+
+To change button text:
+- Edit win/index.html lines 38-43
+- Modify button text as needed
+
+To change colors:
+- Edit win/style.css lines 98-143
+- Modify background, border, and text colors
+
